@@ -1,0 +1,6 @@
+{
+  "LOG_LEVEL": "INFO",
+  "SQLALCHEMY_DATABASE_URI": "sqlite:///./foo.db",
+#  "SQLALCHEMY_DATABASE_URI": "mysql+pymysql://root:12345678@127.0.0.1/flask_celery_context_test?charset=utf8mb4&binary_prefix=true",
+  "SECRET_KEY": "ORUeYo71LEBI8dYWVPmIYjgzQp3Lqr9s",
+}
