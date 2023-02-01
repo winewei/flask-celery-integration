@@ -6,15 +6,15 @@ http://docs.celeryproject.org/en/master/userguide/configuration.html#configurati
 
 ## Broker settings.
 # broker_url = 'redis://localhost:6379'
-broker_url = 'pyamqp://guest:guest@localhost:5672//'
+broker_url = 'pyamqp://guest:guest@rabbitmq:5672//'
 broker_heartbeat = 0
 
 # List of modules to import when the Celery worker starts.
 imports = ('app.celery.tasks',)
 
 ## Using the database to store task state and results.
-# result_backend = 'redis://localhost:6379'
-result_backend = 'rpc'
+result_backend = 'redis://redis-standalone:6379'
+# result_backend = 'rpc'
 result_persistent = True
 
 accept_content = ['json', 'application/text']

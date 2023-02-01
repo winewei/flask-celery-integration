@@ -1,0 +1,48 @@
+version: '2.3'
+
+services:
+  db-migrate:
+    build:
+      context: .
+    image: app
+    entrypoint: ["flask", "db", "upgrade"]
+    depends_on:
+      - redis-standalone
+      - rabbitmq
+    volumes:
+      - db:/app/instance
+
+  app:
+    image: app
+    depends_on:
+      - redis-standalone
+      - rabbitmq
+      - db-migrate
+    volumes:
+      - db:/app/instance
+    ports:
+      - '5000:5000'
+
+  worker:
+    image: app
+    entrypoint: ["celery", "--app", "app.celery.main:celery", "worker", "--loglevel=info"]
+    depends_on:
+      - redis-standalone
+      - rabbitmq
+      - app
+      - db-migrate
+    volumes:
+      - db:/app/instance
+
+  redis-standalone:
+    image: public.ecr.aws/bitnami/redis:6.0.16
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+
+  rabbitmq:
+    image: rabbitmq:3.11-management
+
+
+volumes:
+  db:
+    driver: local
